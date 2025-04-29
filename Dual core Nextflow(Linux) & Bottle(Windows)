@@ -1,0 +1,19 @@
+* Dual core running Bottle framework python on Windows and nextflow for Automation on Linux
+import paramiko
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect('linux-ip', username='youruser', password='yourpass')
+
+stdin, stdout, stderr = ssh.exec_command("nextflow run main.nf --reads /path/to/your/file.fastq")
+print(stdout.read().decode())
+ssh.close()
+
+The file to be uploaded to Linux, maybe via SCP:
+from paramiko import Transport, SFTPClient
+
+transport = Transport(('linux-ip', 22))
+transport.connect(username='youruser', password='yourpass')
+sftp = SFTPClient.from_transport(transport)
+sftp.put("localfile.fastq", "/home/youruser/uploads/localfile.fastq")
+sftp.close()
