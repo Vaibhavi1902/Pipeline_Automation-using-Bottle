@@ -1,0 +1,33 @@
+#!/usr/bin/env nextflow
+
+nextflow.enable.dsl=2  // This enables DSL2 syntax
+
+// The FastQC process
+process fastqc {
+    publishDir 'results/fastqc', mode: 'copy'
+
+    input:
+    file fastq
+
+    output:
+    file "*.html"
+    file "*.zip"
+
+    script:
+    """
+    fastqc $fastq -o ./
+    """
+}
+
+// The workflow block
+workflow {
+    // Input channel pointing to the .fastq file
+    fastq_files = Channel.fromPath('/home/bioinformatics/Documents/NGS_samples/cancer.fastq')
+
+    // Run FastQC on the input files
+    result_html, result_zip = fastqc(fastq_files)
+
+    // View the outputs
+    result_html.view()
+    result_zip.view()
+}
