@@ -1,0 +1,30 @@
+* Nextflow dependencies installation
+sudo snap install curl 
+curl -s https://get.nextflow.io | bash
+sudo mv /home/bioinformatics/Documents/nextflow /usr/local/bin/
+sudo chmod +x /usr/local/bin/nextflow
+
+sudo → run as superuser (admin), since you're modifying a system folder.
+    • chmod → stands for change mode, which changes permissions on a file.
+    • +x → adds execute permission to the file.
+    • /usr/local/bin/nextflow → that’s the path to the Nextflow executable you just moved.
+ nextflow -v
+Option 2: Move it to ~/.local/bin/ (just for your user)
+#user-only:
+mkdir -p ~/.local/bin
+mv /home/bioinformatics/Documents/nextflow ~/.local/bin/
+chmod +x ~/.local/bin/nextflow
+ls -l /usr/local/bin/nextflow
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+which nextflow
+nextflow run nextflow.nf
+which fastqc
+find / -name "fastqc" 2>/dev/null
+find / -name "bwa" 2>/dev/null
+export PATH=$PATH:/home/bioinformatics/Linux_tutorial/FastQC/fastqc
+source ~/.bashrc
+export PATH=$PATH:/usr/bin/bwa
+ source ~/.bashrc
+cd /home/bioinformatics/Documents
+nextflow run cancer_nextflow.nf
